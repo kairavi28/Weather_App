@@ -1,7 +1,7 @@
 # Getting Started with Weather App
 
 
-![Image of the weather app](./src/images/example_image.png)
+![Image of the weather app](./src/images/example-image.png)
 
 ## Available Scripts
 
