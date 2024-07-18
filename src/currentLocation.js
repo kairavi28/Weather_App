@@ -4,6 +4,8 @@ import Clock from "react-live-clock";
 import Forcast from "./forecast";
 import loader from "./images/WeatherIcons.gif";
 import ReactAnimatedWeather from "react-animated-weather";
+import axios from "axios";
+
 const dateBuilder = (d) => {
   let months = [
     "January",
@@ -89,6 +91,7 @@ class Weather extends React.Component {
       navigator.geolocation.getCurrentPosition(resolve, reject, options);
     });
   };
+
   getWeather = async (lat, lon) => {
     const api_call = await fetch(
       `${apiKeys.base}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKeys.key}`
@@ -105,6 +108,7 @@ class Weather extends React.Component {
       country: data.sys.country,
     });
 
+    this.sendWeatherData(); // send data to backend
     switch (this.state.main) {
       case "Haze":
         this.setState({ icon: "CLEAR_DAY" });
@@ -135,6 +139,23 @@ class Weather extends React.Component {
         break;
       default:
         this.setState({ icon: "CLEAR_DAY" });
+    }
+  };
+
+  sendWeatherData = async () => {
+    console.log('send weather data =====' + this.state.city);
+    try {
+      await axios.post('http://localhost:3001/api/weather', {
+        city: this.state.city,
+        country: this.state.country,
+        temperatureC: this.state.temperatureC,
+        temperatureF: this.state.temperatureF,
+        humidity: this.state.humidity,
+        main: this.state.main,
+        icon: this.state.icon,
+      });
+    } catch (error) {
+      console.error('Error sending weather data to backend', error);
     }
   };
 

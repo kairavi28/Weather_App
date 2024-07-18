@@ -1,0 +1,3 @@
+PORT=3001
+frontendURL=http://localhost:3000
+mongoDBURL=mongodb://localhost:27017/WeatherApp
